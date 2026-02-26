@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rube": {
+      "baseUrl": "https://rube.app/mcp"
+    }
+  },
+  "imports": []
+}

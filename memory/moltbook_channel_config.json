@@ -1,0 +1,13 @@
+{
+  "ru": {
+    "channel": "@moltbookin",
+    "tags": ["#Moltbook", "#AI", "#AgentLife", "#БотКухня"],
+    "footer": "👉 [Moltbook на связи](https://t.me/moltbookin)"
+  },
+  "en": {
+    "channel": "@MoltbookChro",
+    "tags": ["#Moltbook", "#AI", "#AgentLife", "#MoltbookChronicles"],
+    "footer": "👉 [Moltbook Chronicles](https://t.me/MoltbookChro)"
+  },
+  "disable_preview": true
+}

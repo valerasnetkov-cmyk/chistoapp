@@ -5,19 +5,43 @@ import { renderHeader, initHeaderEvents } from '../../components/header.js';
 import { showToast } from '../../components/toast.js';
 import { notifyPostAssigned, notifyWashComplete } from '../../notifications.js';
 
+// Generate date options
+function getDateOptions() {
+    const opts = [];
+    const today = new Date();
+    for (let i = -3; i <= 10; i++) {
+        const d = new Date(today);
+        d.setDate(today.getDate() + i);
+        const v = d.toISOString().split('T')[0];
+        let l = d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'numeric' });
+        if (i === 0) l = 'Сегодня';
+        else if (i === 1) l = 'Завтра';
+        else if (i === -1) l = 'Вчера';
+        opts.push({ value: v, label: l });
+    }
+    return opts;
+}
+
+// Get date from URL hash
+function getDateFromHash() {
+    const hash = window.location.hash;
+    const match = hash.match(/date=([^&]+)/);
+    return match ? match[1] : null;
+}
+
 export async function renderQueuePage(app) {
     const user = await getCurrentUser();
     await render();
 
     async function render() {
         const today = store.getTodayStr();
-        const allBookings = (await store.getAll('bookings') || []);
+        const selectedDate = getDateFromHash() || today;
         
         const bookings = allBookings
             .filter(b => {
                 if (!b || !b.date || b.status === 'cancelled') return false;
                 const bDate = b.date.includes('T') ? b.date.split('T')[0] : b.date;
-                return bDate === today;
+                return bDate === selectedDate;
             })
             .sort((a, b) => {
                 const order = { in_progress: 0, waiting: 1, pending: 2, completed: 3 };
@@ -43,8 +67,12 @@ export async function renderQueuePage(app) {
       <main class="page-content animate-fade-in">
         <div class="page-header flex justify-between items-center flex-wrap gap-lg">
           <div style="flex: 1; min-width: 200px;">
-            <h1 class="page-header__title">📋 Очередь на сегодня</h1>
-            <p class="page-header__subtitle">${new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+            <h1 class="page-header__title">📋 Очередь</h1>
+            <div style="margin-top:var(--space-sm);">
+              <select id="queue-date-select" class="form-select" style="width:auto;padding:var(--space-sm) var(--space-lg);">
+                ${getDateOptions().map(d => `<option value="${d.value}" ${d.value === selectedDate ? 'selected' : ''}>${d.label}</option>`).join('')}
+              </select>
+            </div>
           </div>
           <a href="#/admin/booking" class="btn btn--primary" style="white-space: nowrap;">+ Записать клиента</a>
         </div>
@@ -52,8 +80,8 @@ export async function renderQueuePage(app) {
         ${bookings.length === 0 ? `
           <div class="glass-card text-center" style="padding:var(--space-4xl);">
             <div style="font-size:3rem;margin-bottom:var(--space-lg);">📋</div>
-            <h3>Очередь пуста</h3>
-            <p class="text-secondary mt-sm">На сегодня записей нет</p>
+            <h3>Записей нет</h3>
+            <p class="text-secondary mt-sm">На выбранную дату записей нет</p>
           </div>
         ` : `
           <div class="queue-list stagger-children">
@@ -136,6 +164,11 @@ export async function renderQueuePage(app) {
     `;
 
         initHeaderEvents();
+
+        // Date selector handler
+        document.getElementById('queue-date-select')?.addEventListener('change', (e) => {
+            window.location.hash = '#/admin/queue?date=' + e.target.value;
+        });
 
         // Action handlers
         document.querySelectorAll('.action-btn').forEach(btn => {

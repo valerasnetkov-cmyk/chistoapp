@@ -1,0 +1,49 @@
+server {
+    server_name 109.69.16.132 chistoapp.ru;
+
+    root /var/www/chistoapp.ru;
+    index index.html;
+
+    # Landing page for new car wash owners
+    location = / {
+        # Check if it's a mobile Telegram user (optional, but for now we show landing to everyone at root)
+        try_files /landing.html =404;
+    }
+
+    # Main App (Mini App) - moved to /app
+    location /app {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /admin {
+        try_files $uri $uri/ /admin.html;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/chistoapp.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/chistoapp.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    listen 80;
+    server_name 109.69.16.132 chistoapp.ru;
+
+    if ($host = chistoapp.ru) {
+        return 301 https://$host$request_uri;
+    }
+
+    location / {
+        return 301 https://chistoapp.ru$request_uri;
+    }
+}
