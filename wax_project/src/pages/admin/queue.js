@@ -34,6 +34,7 @@ export async function renderQueuePage(app) {
     await render();
 
     async function render() {
+        const allBookings = (await store.getAll('bookings')) || [];
         const today = store.getTodayStr();
         const selectedDate = getDateFromHash() || today;
         
