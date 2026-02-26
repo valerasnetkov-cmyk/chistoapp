@@ -1,0 +1,37 @@
+/* === Notification Panel Enhancements === */
+.notifications-panel {
+    z-index: 10000 !important; /* Ensure it's above everything */
+}
+
+.notification-item {
+    position: relative;
+    cursor: pointer !important;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(37, 99, 235, 0.1);
+    background: rgba(255, 255, 255, 0.01); /* Ensure it has a clickable surface */
+}
+
+.notification-item:active {
+    background: rgba(37, 99, 235, 0.1) !important;
+}
+
+/* Add a visual indicator that it's a link if it has data */
+.notification-item[data-has-details="true"]::after {
+    content: '→';
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-primary);
+    opacity: 0.5;
+    font-weight: 800;
+}
+
+/* Prevent pointer-events issues with inner elements */
+.notification-item * {
+    pointer-events: none;
+}
+
+.notification-item .btn {
+    pointer-events: auto; /* Buttons inside should still work if any */
+}

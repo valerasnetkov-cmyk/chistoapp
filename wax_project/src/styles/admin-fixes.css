@@ -1,0 +1,84 @@
+/* === Admin Queue Improvements === */
+.queue-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+}
+
+.queue-item__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.queue-item__name {
+    font-weight: 600;
+    margin-bottom: 2px;
+    word-break: break-word;
+}
+
+@media (max-width: 640px) {
+    .queue-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-md);
+        padding: var(--space-lg);
+    }
+
+    .queue-item__number {
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        margin: 0;
+    }
+
+    .queue-item__info {
+        padding-right: 40px; /* Space for the number */
+    }
+
+    .queue-item__controls {
+        width: 100%;
+        margin-top: var(--space-sm);
+        padding-top: var(--space-md);
+        border-top: 1px solid var(--color-divider);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .queue-item__controls .btn {
+        width: 100%;
+        padding: 0.75rem;
+    }
+    
+    .queue-item__controls .flex {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .queue-item__controls select {
+        width: 100% !important;
+        margin: 0 !important;
+    }
+}
+
+/* Ensure long titles in header don't break layout */
+.page-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    width: 100%;
+}
+
+.page-header__title {
+    word-break: break-word;
+    line-height: 1.2;
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+}
+
+/* Fix for the specific yellow button overlapping */
+.action-btn[data-action="call"] {
+    background: var(--gradient-warm);
+    color: white;
+}

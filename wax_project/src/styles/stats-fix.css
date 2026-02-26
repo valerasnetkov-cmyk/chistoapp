@@ -1,0 +1,31 @@
+/* === Dashboard Grids === */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+}
+
+.dashboard-grid--stats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--space-md) !important;
+}
+
+@media (max-width: 480px) {
+    .dashboard-grid--stats {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    .stat-card {
+        padding: var(--space-md) var(--space-sm) !important;
+    }
+    .stat-card__icon {
+        font-size: 1.5rem !important;
+        margin-bottom: var(--space-xs) !important;
+    }
+    .stat-card__value {
+        font-size: 1.25rem !important;
+    }
+    .stat-card__label {
+        font-size: 0.65rem !important;
+    }
+}

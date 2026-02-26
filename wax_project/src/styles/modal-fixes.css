@@ -1,0 +1,64 @@
+/* === Modal Adjustments === */
+.modal {
+    width: 95% !important;
+    max-width: 500px !important;
+    padding: var(--space-lg) !important;
+}
+
+.modal__body {
+    padding-right: 4px; /* Space for scrollbar */
+}
+
+/* === Washer History Item Adjustments === */
+.washer-history-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-sm);
+    padding: var(--space-md);
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.washer-history-item__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.washer-history-item__car {
+    font-weight: 800;
+    color: var(--color-primary);
+    font-size: 1rem;
+}
+
+.washer-history-item__price {
+    font-weight: 700;
+}
+
+.washer-history-item__meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-text-secondary);
+    font-size: 0.7rem;
+}
+
+.washer-history-item__comment {
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+@media (max-width: 400px) {
+    .washer-history-item__car {
+        font-size: 0.9rem;
+    }
+    .washer-history-item__meta {
+        flex-direction: column;
+        gap: 2px;
+    }
+}
